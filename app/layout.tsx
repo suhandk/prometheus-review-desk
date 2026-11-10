@@ -26,7 +26,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </span>
           </span>
         </header>
-        <main id="main">{children}</main>
+        <main id="main">
+          {process.env.VERCEL === "1" && !process.env.PROMETHEUS_DB && (
+            <p className="notice">
+              Hosted demo. Use fictional data only. Changes are temporary and
+              can reset between requests.
+            </p>
+          )}
+          {children}
+        </main>
         <footer>
           <span>
             Prometheus <b>·</b> Local review workspace

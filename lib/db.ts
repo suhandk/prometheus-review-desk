@@ -1,8 +1,10 @@
 import { DatabaseSync, type SQLInputValue } from "node:sqlite";
 import { mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { tmpdir } from "node:os";
 import { z } from "zod";
 import { contrastRatio } from "./contrast";
+import { seed } from "./seed";
 
 const actors = new WeakMap<DatabaseSync, string>();
 export function withActor<T>(
@@ -72,9 +74,11 @@ export function insert(db: DB, sql: string, ...args: SQLInputValue[]) {
 let instance: DB | undefined;
 export function database() {
   if (!instance) {
-    const db = connect();
+    const hostedDemo = process.env.VERCEL === "1" && !process.env.PROMETHEUS_DB;
+    const db = hostedDemo ? connect(join(tmpdir(), "prometheus-demo.sqlite")) : connect();
     try {
       migrate(db);
+      if (hostedDemo) seed(db);
       instance = db;
     } catch (e) {
       db.close();
