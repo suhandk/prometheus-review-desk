@@ -2,6 +2,8 @@
 
 Prometheus reviews campaign copy against approved product facts and brand rules. The fictional Aster Watch campaign demonstrates how an evidence change affects existing approvals and how a reviewer can correct and reapprove a revision.
 
+[Open the hosted Aster Watch demo](https://prometheus-review-desk.vercel.app/campaigns/aster)
+
 ## What to try
 
 1. Open the Aster Watch campaign and inspect its three seeded assets.
@@ -29,6 +31,8 @@ For a local production build, stop the development server, run `npm run build`, 
 ## Deploy on Vercel
 
 Import this repository as a Next.js project, select Node.js **24.x**, and keep the repository root as the project root. The hosted demo migrates and seeds its own SQLite file on first use. The SQL migrations are included in the server bundle.
+
+The live demo was deployed with the Vercel CLI. To deploy manually, authenticate with `npx vercel login`, link the checkout to your project with `npx vercel link`, then run `npx vercel deploy --prod`. [Vercel CLI deployment guide](https://vercel.com/docs/projects/deploy-from-cli)
 
 Vercel functions use writable scratch storage for this demo. Edits can reset or differ between instances. Use fictional data, since the demo reviewer identity has no authentication. A shared production workflow requires durable storage and access controls. [Vercel filesystem documentation](https://vercel.com/docs/functions/runtimes#file-system-support)
 
